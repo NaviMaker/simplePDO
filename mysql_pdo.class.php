@@ -1,5 +1,13 @@
 <?php
-defined('_CN_')||(die('Direct Access Forbidden!'));
+/*
+ *  simplePDO by NaviMaker
+ *  https://github.com/NaviMaker/simplePDO
+ *
+ *	Licence: GPL V2
+ *  Description:
+ *	This is a simple PHP class I wrote to simplify the database management using PDO 
+ *
+ */
 
 class db{
 	/*** Database credentials ***/
