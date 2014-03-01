@@ -9,7 +9,7 @@ class db{
 	public $DB_NAME 	= '';
 	
 	/*** Activate debug functions ***/
-	public $debug = false;
+	public $debug = true;
 	
 	/*** Keep track of all queries ***/
 	public $querynumber = 0;
@@ -28,7 +28,7 @@ class db{
 		try 
 		{
 			$this->pdo = new PDO('mysql:host='.$this->DB_SERVER.';dbname='.$this->DB_NAME, $this->DB_USER, $this->DB_PASSWORD);
-			if( $this->debug ){ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); }
+			if( $this->debug ){ $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); }
 			
 			$this->cs = true;
 		}
@@ -60,7 +60,7 @@ class db{
 			
 			$this->querynumber++;
 		}
-		catch(PDOException $e)
+		catch(PDOException $er)
 		{
 			throw new Exception ($er->getMessage());
 		}
