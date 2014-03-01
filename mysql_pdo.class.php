@@ -3,13 +3,13 @@ defined('_CN_')||(die('Direct Access Forbidden!'));
 
 class db{
 	/*** Database credentials ***/
-	static $DB_SERVER	= '127.0.0.1'; //localhost is sometimes really slow
-	static $DB_USER 	= 'root';
-	static $DB_PASSWORD = '';
-	static $DB_NAME 	= '';
+	public $DB_SERVER	= '127.0.0.1'; //localhost is sometimes really slow
+	public $DB_USER 	= 'root';
+	public $DB_PASSWORD = '';
+	public $DB_NAME 	= '';
 	
 	/*** Activate debug functions ***/
-	static $debug = true;
+	public $debug = false;
 	
 	/*** Keep track of all queries ***/
 	public $querynumber = 0;
@@ -20,12 +20,15 @@ class db{
 	/*** Query parameters ***/
 	private $queryparameters = array();
 	
+	private $pdo;
+	private $query;
+	
 	public function connect()
 	{
 		try 
 		{
-			$pdo = new PDO('mysql:host='.self::$DB_SERVER.';dbname='.self::$DB_NAME, self::$DB_USER, self::$DB_PASSWORD);
-			if( self::$debug ){ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); }
+			$this->pdo = new PDO('mysql:host='.$this->DB_SERVER.';dbname='.$this->DB_NAME, $this->DB_USER, $this->DB_PASSWORD);
+			if( $this->debug ){ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); }
 			
 			$this->cs = true;
 		}
@@ -52,8 +55,8 @@ class db{
 		try
 		{
 			/*** Prepare the query ***/
-			$query = $this->pdo->prepare($q);
-			$query->execute(self::$queryparameters);
+			$this->query = $this->pdo->prepare($q);
+			$this->query->execute($this->queryparameters);
 			
 			$this->querynumber++;
 		}
@@ -85,7 +88,7 @@ class db{
 	
 	public function setParm($placeholder, $value)
 	{
-		self::$queryparameters[$placeholder] = $value;
+		$this->queryparameters[$placeholder] = $value;
 	}
 }
 ?>
